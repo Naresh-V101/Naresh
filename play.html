@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="NV Flight — a tiny endless flight game by Naresh V." />
+<title>NV Flight | Naresh V.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="cursor-glow"></div>
+<header class="site-header">
+<a class="brand" href="index.html"><span>NV</span><small>AI / DS</small></a>
+<nav class="desktop-nav" aria-label="Primary navigation"><a href="work.html">Work</a><a href="arsenal.html">Arsenal</a><a href="journey.html">Journey</a><a href="contact.html">Contact</a><a href="play.html" aria-current="page">Play</a></nav><button class="theme-toggle" type="button" aria-label="Toggle color theme" aria-pressed="false"><span aria-hidden="true">☾</span></button>
+<a class="header-cta" href="contact.html">Let's connect <span>↗</span></a>
+<button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button>
+</header>
+<main>
+<section class="page-hero section-shell reveal">
+<p class="eyebrow warm">06 / Play break</p>
+<h1>NV<br /><em>flight.</em></h1>
+<p>An endless micro-runner. Steer the craft, collect skill orbs, dodge bug asteroids. Best score saves locally.</p>
+</section>
+<section class="section-shell flight-wrap">
+<div class="flight-hud reveal">
+<div><small>Score</small><strong id="flight-score">0</strong></div>
+<div><small>Best</small><strong id="flight-best">0</strong></div>
+<div><small>Hull</small><strong id="flight-lives">●●●</strong></div>
+<button id="flight-pause" class="button button-ghost flight-btn" type="button">Pause</button>
+</div>
+<div class="flight-stage reveal">
+<canvas id="flight-canvas" aria-label="NV Flight game canvas. Steer with mouse, touch, or keyboard."></canvas>
+<div id="flight-overlay" class="flight-overlay is-open">
+<div>
+<p class="eyebrow warm">NV Flight</p>
+<h2 id="flight-overlay-title">NV Flight</h2>
+<p id="flight-overlay-text">Steer with mouse, touch, or WASD/arrows.</p>
+<button id="flight-start" class="button button-solid" type="button">Start flight</button>
+<p class="flight-hint">Space/Enter to start · P/Esc to pause</p>
+</div>
+</div>
+</div>
+<p class="flight-note">Tip: orbs +25 · survival trickles +10/sec · 3 hits ends the run.</p>
+</section>
+</main>
+<footer class="site-footer section-shell"><span>© <span id="year"></span> Naresh V. / Crafted with intent.</span><span>Karur, Tamil Nadu · India</span><span><a href="work.html">Work</a> <a href="index.html">Home</a></span></footer>
+<script src="script.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

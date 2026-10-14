@@ -116,3 +116,64 @@ document.addEventListener('pointermove', (event) => {
     glow.style.top = `${event.clientY}px`;
   }
 });
+
+// Theme: light/dark toggle, persisted, respects OS preference.
+(() => {
+  const toggle = document.querySelector('.theme-toggle');
+  const root = document.documentElement;
+  const KEY = 'nv-theme';
+  const apply = (theme) => {
+    root.dataset.theme = theme;
+    root.style.colorScheme = theme;
+    try { localStorage.setItem(KEY, theme); } catch { /* private mode */ }
+    toggle?.setAttribute('aria-pressed', String(theme === 'light'));
+    const icon = toggle?.querySelector('span');
+    if (icon) icon.textContent = theme === 'light' ? '☀' : '☾';
+  };
+  let initial = 'dark';
+  try { initial = localStorage.getItem(KEY) || initial; } catch { /* ignore */ }
+  if (!localStorage.getItem?.(KEY)) {
+    try {
+      if (window.matchMedia('(prefers-color-scheme: light)').matches) initial = 'light';
+    } catch { /* ignore */ }
+  }
+  apply(initial);
+  toggle?.addEventListener('click', () => {
+    apply(root.dataset.theme === 'light' ? 'dark' : 'light');
+  });
+})();
+
+// Motion polish: scroll progress, magnetic buttons, reveal stagger.
+(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  const bar = document.createElement('div');
+  bar.className = 'scroll-progress';
+  bar.setAttribute('aria-hidden', 'true');
+  document.body.prepend(bar);
+  const onScroll = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if (!reduceMotion) {
+    document.querySelectorAll('.pillar-grid article, .arsenal-grid article, .project-list .project').forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 4) * 60}ms`;
+    });
+  }
+
+  if (!reduceMotion && finePointer) {
+    document.querySelectorAll('.button, .header-cta').forEach((btn) => {
+      btn.addEventListener('pointermove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+        btn.style.transform = `translate(${dx * 6}px, ${dy * 6}px)`;
+      });
+      btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
+    });
+  }
+})();
